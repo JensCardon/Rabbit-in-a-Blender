@@ -1,7 +1,3 @@
-
--- use database
-USE {{omop_database_catalog}};
-
 -- drop constraints
 DECLARE @DropConstraints NVARCHAR(max) = ''
 SELECT @DropConstraints += 'ALTER TABLE ' + QUOTENAME(OBJECT_SCHEMA_NAME(parent_object_id)) + '.'
@@ -11,8 +7,8 @@ EXECUTE sp_executesql @DropConstraints;
 --sql server CDM DDL Specification for OMOP Common Data Model 5.4
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.PERSON', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PERSON; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PERSON (
+	DROP TABLE {{omop_database_schema}}.PERSON;
+CREATE TABLE {{omop_database_schema}}.PERSON (
 			person_id integer NOT NULL,
 			gender_concept_id integer NOT NULL,
 			year_of_birth integer NOT NULL,
@@ -33,8 +29,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PERSON (
 			ethnicity_source_concept_id integer NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.OBSERVATION_PERIOD', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.OBSERVATION_PERIOD; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.OBSERVATION_PERIOD (
+	DROP TABLE {{omop_database_schema}}.OBSERVATION_PERIOD;
+CREATE TABLE {{omop_database_schema}}.OBSERVATION_PERIOD (
 			observation_period_id integer NOT NULL,
 			person_id integer NOT NULL,
 			observation_period_start_date date NOT NULL,
@@ -42,8 +38,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.OBSERVATION_PERI
 			period_type_concept_id integer NOT NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.VISIT_OCCURRENCE', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.VISIT_OCCURRENCE; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.VISIT_OCCURRENCE (
+	DROP TABLE {{omop_database_schema}}.VISIT_OCCURRENCE;
+CREATE TABLE {{omop_database_schema}}.VISIT_OCCURRENCE (
 			visit_occurrence_id integer NOT NULL,
 			person_id integer NOT NULL,
 			visit_concept_id integer NOT NULL,
@@ -63,8 +59,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.VISIT_OCCURRENCE
 			preceding_visit_occurrence_id integer NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.VISIT_DETAIL', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.VISIT_DETAIL; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.VISIT_DETAIL (
+	DROP TABLE {{omop_database_schema}}.VISIT_DETAIL;
+CREATE TABLE {{omop_database_schema}}.VISIT_DETAIL (
 			visit_detail_id integer NOT NULL,
 			person_id integer NOT NULL,
 			visit_detail_concept_id integer NOT NULL,
@@ -86,8 +82,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.VISIT_DETAIL (
 			visit_occurrence_id integer NOT NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.CONDITION_OCCURRENCE', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONDITION_OCCURRENCE; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONDITION_OCCURRENCE (
+	DROP TABLE {{omop_database_schema}}.CONDITION_OCCURRENCE;
+CREATE TABLE {{omop_database_schema}}.CONDITION_OCCURRENCE (
 			condition_occurrence_id integer NOT NULL,
 			person_id integer NOT NULL,
 			condition_concept_id integer NOT NULL,
@@ -106,8 +102,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONDITION_OCCURR
 			condition_status_source_value varchar(50) NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.DRUG_EXPOSURE', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DRUG_EXPOSURE; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DRUG_EXPOSURE (
+	DROP TABLE {{omop_database_schema}}.DRUG_EXPOSURE;
+CREATE TABLE {{omop_database_schema}}.DRUG_EXPOSURE (
 			drug_exposure_id integer NOT NULL,
 			person_id integer NOT NULL,
 			drug_concept_id integer NOT NULL,
@@ -133,8 +129,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DRUG_EXPOSURE (
 			dose_unit_source_value varchar(50) NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.PROCEDURE_OCCURRENCE', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PROCEDURE_OCCURRENCE; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PROCEDURE_OCCURRENCE (
+	DROP TABLE {{omop_database_schema}}.PROCEDURE_OCCURRENCE;
+CREATE TABLE {{omop_database_schema}}.PROCEDURE_OCCURRENCE (
 			procedure_occurrence_id integer NOT NULL,
 			person_id integer NOT NULL,
 			procedure_concept_id integer NOT NULL,
@@ -153,8 +149,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PROCEDURE_OCCURR
 			modifier_source_value varchar(50) NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.DEVICE_EXPOSURE', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DEVICE_EXPOSURE; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DEVICE_EXPOSURE (
+	DROP TABLE {{omop_database_schema}}.DEVICE_EXPOSURE;
+CREATE TABLE {{omop_database_schema}}.DEVICE_EXPOSURE (
 			device_exposure_id integer NOT NULL,
 			person_id integer NOT NULL,
 			device_concept_id integer NOT NULL,
@@ -176,8 +172,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DEVICE_EXPOSURE 
 			unit_source_concept_id integer NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.MEASUREMENT', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.MEASUREMENT; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.MEASUREMENT (
+	DROP TABLE {{omop_database_schema}}.MEASUREMENT;
+CREATE TABLE {{omop_database_schema}}.MEASUREMENT (
 			measurement_id integer NOT NULL,
 			person_id integer NOT NULL,
 			measurement_concept_id integer NOT NULL,
@@ -203,8 +199,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.MEASUREMENT (
 			meas_event_field_concept_id integer NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.OBSERVATION', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.OBSERVATION; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.OBSERVATION (
+	DROP TABLE {{omop_database_schema}}.OBSERVATION;
+CREATE TABLE {{omop_database_schema}}.OBSERVATION (
 			observation_id integer NOT NULL,
 			person_id integer NOT NULL,
 			observation_concept_id integer NOT NULL,
@@ -228,8 +224,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.OBSERVATION (
 			obs_event_field_concept_id integer NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.DEATH', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DEATH; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DEATH (
+	DROP TABLE {{omop_database_schema}}.DEATH;
+CREATE TABLE {{omop_database_schema}}.DEATH (
 			person_id integer NOT NULL,
 			death_date date NOT NULL,
 			death_datetime datetime NULL,
@@ -239,8 +235,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DEATH (
 			cause_source_concept_id integer NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.NOTE', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.NOTE; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.NOTE (
+	DROP TABLE {{omop_database_schema}}.NOTE;
+CREATE TABLE {{omop_database_schema}}.NOTE (
 			note_id integer NOT NULL,
 			person_id integer NOT NULL,
 			note_date date NOT NULL,
@@ -259,8 +255,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.NOTE (
 			note_event_field_concept_id integer NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.NOTE_NLP', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.NOTE_NLP; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.NOTE_NLP (
+	DROP TABLE {{omop_database_schema}}.NOTE_NLP;
+CREATE TABLE {{omop_database_schema}}.NOTE_NLP (
 			note_nlp_id integer NOT NULL,
 			note_id integer NOT NULL,
 			section_concept_id integer NULL,
@@ -277,8 +273,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.NOTE_NLP (
 			term_modifiers varchar(2000) NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.SPECIMEN', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.SPECIMEN; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.SPECIMEN (
+	DROP TABLE {{omop_database_schema}}.SPECIMEN;
+CREATE TABLE {{omop_database_schema}}.SPECIMEN (
 			specimen_id integer NOT NULL,
 			person_id integer NOT NULL,
 			specimen_concept_id integer NOT NULL,
@@ -296,8 +292,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.SPECIMEN (
 			disease_status_source_value varchar(50) NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.FACT_RELATIONSHIP', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.FACT_RELATIONSHIP; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.FACT_RELATIONSHIP (
+	DROP TABLE {{omop_database_schema}}.FACT_RELATIONSHIP;
+CREATE TABLE {{omop_database_schema}}.FACT_RELATIONSHIP (
 			domain_concept_id_1 integer NOT NULL,
 			fact_id_1 integer NOT NULL,
 			domain_concept_id_2 integer NOT NULL,
@@ -305,8 +301,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.FACT_RELATIONSHI
 			relationship_concept_id integer NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.LOCATION', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.LOCATION; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.LOCATION (
+	DROP TABLE {{omop_database_schema}}.LOCATION;
+CREATE TABLE {{omop_database_schema}}.LOCATION (
 			location_id integer NOT NULL,
 			address_1 varchar(50) NULL,
 			address_2 varchar(50) NULL,
@@ -321,8 +317,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.LOCATION (
 			longitude float NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.CARE_SITE', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CARE_SITE; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CARE_SITE (
+	DROP TABLE {{omop_database_schema}}.CARE_SITE;
+CREATE TABLE {{omop_database_schema}}.CARE_SITE (
 			care_site_id integer NOT NULL,
 			care_site_name varchar(255) NULL,
 			place_of_service_concept_id integer NULL,
@@ -331,8 +327,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CARE_SITE (
 			place_of_service_source_value varchar(50) NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.PROVIDER', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PROVIDER; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PROVIDER (
+	DROP TABLE {{omop_database_schema}}.PROVIDER;
+CREATE TABLE {{omop_database_schema}}.PROVIDER (
 			provider_id integer NOT NULL,
 			provider_name varchar(255) NULL,
 			npi varchar(20) NULL,
@@ -348,8 +344,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PROVIDER (
 			gender_source_concept_id integer NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.PAYER_PLAN_PERIOD', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PAYER_PLAN_PERIOD; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PAYER_PLAN_PERIOD (
+	DROP TABLE {{omop_database_schema}}.PAYER_PLAN_PERIOD;
+CREATE TABLE {{omop_database_schema}}.PAYER_PLAN_PERIOD (
 			payer_plan_period_id integer NOT NULL,
 			person_id integer NOT NULL,
 			payer_plan_period_start_date date NOT NULL,
@@ -369,8 +365,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.PAYER_PLAN_PERIO
 			stop_reason_source_concept_id integer NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.COST', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.COST; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.COST (
+	DROP TABLE {{omop_database_schema}}.COST;
+CREATE TABLE {{omop_database_schema}}.COST (
 			cost_id integer NOT NULL,
 			cost_event_id integer NOT NULL,
 			cost_domain_id varchar(20) NOT NULL,
@@ -395,8 +391,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.COST (
 			drg_source_value varchar(3) NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.DRUG_ERA', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DRUG_ERA; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DRUG_ERA (
+	DROP TABLE {{omop_database_schema}}.DRUG_ERA;
+CREATE TABLE {{omop_database_schema}}.DRUG_ERA (
 			drug_era_id integer NOT NULL,
 			person_id integer NOT NULL,
 			drug_concept_id integer NOT NULL,
@@ -406,8 +402,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DRUG_ERA (
 			gap_days integer NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.DOSE_ERA', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DOSE_ERA; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DOSE_ERA (
+	DROP TABLE {{omop_database_schema}}.DOSE_ERA;
+CREATE TABLE {{omop_database_schema}}.DOSE_ERA (
 			dose_era_id integer NOT NULL,
 			person_id integer NOT NULL,
 			drug_concept_id integer NOT NULL,
@@ -417,8 +413,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DOSE_ERA (
 			dose_era_end_date date NOT NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.CONDITION_ERA', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONDITION_ERA; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONDITION_ERA (
+	DROP TABLE {{omop_database_schema}}.CONDITION_ERA;
+CREATE TABLE {{omop_database_schema}}.CONDITION_ERA (
 			condition_era_id integer NOT NULL,
 			person_id integer NOT NULL,
 			condition_concept_id integer NOT NULL,
@@ -427,8 +423,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONDITION_ERA (
 			condition_occurrence_count integer NULL );
 --HINT DISTRIBUTE ON KEY (person_id)
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.EPISODE', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.EPISODE; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.EPISODE (
+	DROP TABLE {{omop_database_schema}}.EPISODE;
+CREATE TABLE {{omop_database_schema}}.EPISODE (
 			episode_id integer NOT NULL,
 			person_id integer NOT NULL,
 			episode_concept_id integer NOT NULL,
@@ -444,15 +440,15 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.EPISODE (
 			episode_source_concept_id integer NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.EPISODE_EVENT', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.EPISODE_EVENT; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.EPISODE_EVENT (
+	DROP TABLE {{omop_database_schema}}.EPISODE_EVENT;
+CREATE TABLE {{omop_database_schema}}.EPISODE_EVENT (
 			episode_id integer NOT NULL,
 			event_id integer NOT NULL,
 			episode_event_field_concept_id integer NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.METADATA', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.METADATA; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.METADATA (
+	DROP TABLE {{omop_database_schema}}.METADATA;
+CREATE TABLE {{omop_database_schema}}.METADATA (
 			metadata_id integer NOT NULL,
 			metadata_concept_id integer NOT NULL,
 			metadata_type_concept_id integer NOT NULL,
@@ -464,8 +460,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.METADATA (
 			metadata_datetime datetime NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.CDM_SOURCE', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CDM_SOURCE; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CDM_SOURCE (
+	DROP TABLE {{omop_database_schema}}.CDM_SOURCE;
+CREATE TABLE {{omop_database_schema}}.CDM_SOURCE (
 			cdm_source_name varchar(255) NOT NULL,
 			cdm_source_abbreviation varchar(25) NOT NULL,
 			cdm_holder varchar(255) NOT NULL,
@@ -479,8 +475,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CDM_SOURCE (
 			vocabulary_version varchar(20) NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT (
+	DROP TABLE {{omop_database_schema}}.CONCEPT;
+CREATE TABLE {{omop_database_schema}}.CONCEPT (
 			concept_id integer NOT NULL,
 			concept_name varchar(510) NOT NULL,
 			domain_id varchar(20) NOT NULL,
@@ -493,8 +489,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT (
 			invalid_reason varchar(1) NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.VOCABULARY', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.VOCABULARY; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.VOCABULARY (
+	DROP TABLE {{omop_database_schema}}.VOCABULARY;
+CREATE TABLE {{omop_database_schema}}.VOCABULARY (
 			vocabulary_id varchar(20) NOT NULL,
 			vocabulary_name varchar(510) NOT NULL,
 			vocabulary_reference varchar(255) NULL,
@@ -502,22 +498,22 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.VOCABULARY (
 			vocabulary_concept_id integer NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.DOMAIN', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DOMAIN; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DOMAIN (
+	DROP TABLE {{omop_database_schema}}.DOMAIN;
+CREATE TABLE {{omop_database_schema}}.DOMAIN (
 			domain_id varchar(20) NOT NULL,
 			domain_name varchar(255) NOT NULL,
 			domain_concept_id integer NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_CLASS', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_CLASS; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_CLASS (
+	DROP TABLE {{omop_database_schema}}.CONCEPT_CLASS;
+CREATE TABLE {{omop_database_schema}}.CONCEPT_CLASS (
 			concept_class_id varchar(20) NOT NULL,
 			concept_class_name varchar(255) NOT NULL,
 			concept_class_concept_id integer NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_RELATIONSHIP', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_RELATIONSHIP; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_RELATIONSHIP (
+	DROP TABLE {{omop_database_schema}}.CONCEPT_RELATIONSHIP;
+CREATE TABLE {{omop_database_schema}}.CONCEPT_RELATIONSHIP (
 			concept_id_1 integer NOT NULL,
 			concept_id_2 integer NOT NULL,
 			relationship_id varchar(20) NOT NULL,
@@ -526,8 +522,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_RELATION
 			invalid_reason varchar(1) NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.RELATIONSHIP', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.RELATIONSHIP; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.RELATIONSHIP (
+	DROP TABLE {{omop_database_schema}}.RELATIONSHIP;
+CREATE TABLE {{omop_database_schema}}.RELATIONSHIP (
 			relationship_id varchar(20) NOT NULL,
 			relationship_name varchar(255) NOT NULL,
 			is_hierarchical varchar(1) NOT NULL,
@@ -536,23 +532,23 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.RELATIONSHIP (
 			relationship_concept_id integer NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_SYNONYM', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_SYNONYM; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_SYNONYM (
+	DROP TABLE {{omop_database_schema}}.CONCEPT_SYNONYM;
+CREATE TABLE {{omop_database_schema}}.CONCEPT_SYNONYM (
 			concept_id integer NOT NULL,
 			concept_synonym_name varchar(1100) NOT NULL,
 			language_concept_id integer NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_ANCESTOR', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_ANCESTOR; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.CONCEPT_ANCESTOR (
+	DROP TABLE {{omop_database_schema}}.CONCEPT_ANCESTOR;
+CREATE TABLE {{omop_database_schema}}.CONCEPT_ANCESTOR (
 			ancestor_concept_id integer NOT NULL,
 			descendant_concept_id integer NOT NULL,
 			min_levels_of_separation integer NOT NULL,
 			max_levels_of_separation integer NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.SOURCE_TO_CONCEPT_MAP', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.SOURCE_TO_CONCEPT_MAP; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.SOURCE_TO_CONCEPT_MAP (
+	DROP TABLE {{omop_database_schema}}.SOURCE_TO_CONCEPT_MAP;
+CREATE TABLE {{omop_database_schema}}.SOURCE_TO_CONCEPT_MAP (
 			source_code varchar(50) NOT NULL,
 			source_concept_id integer NOT NULL,
 			source_vocabulary_id varchar(20) NOT NULL,
@@ -564,8 +560,8 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.SOURCE_TO_CONCEP
 			invalid_reason varchar(1) NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.DRUG_STRENGTH', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DRUG_STRENGTH; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DRUG_STRENGTH (
+	DROP TABLE {{omop_database_schema}}.DRUG_STRENGTH;
+CREATE TABLE {{omop_database_schema}}.DRUG_STRENGTH (
 			drug_concept_id integer NOT NULL,
 			ingredient_concept_id integer NOT NULL,
 			amount_value float NULL,
@@ -580,16 +576,16 @@ CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.DRUG_STRENGTH (
 			invalid_reason varchar(1) NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.COHORT', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.COHORT; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.COHORT (
+	DROP TABLE {{omop_database_schema}}.COHORT;
+CREATE TABLE {{omop_database_schema}}.COHORT (
 			cohort_definition_id integer NOT NULL,
 			subject_id integer NOT NULL,
 			cohort_start_date date NOT NULL,
 			cohort_end_date date NOT NULL );
 --HINT DISTRIBUTE ON RANDOM
 IF OBJECT_ID(N'{{omop_database_catalog}}.{{omop_database_schema}}.COHORT_DEFINITION', N'U') IS NOT NULL
-	DROP TABLE {{omop_database_catalog}}.{{omop_database_schema}}.COHORT_DEFINITION; 
-CREATE TABLE {{omop_database_catalog}}.{{omop_database_schema}}.COHORT_DEFINITION (
+	DROP TABLE {{omop_database_schema}}.COHORT_DEFINITION;
+CREATE TABLE {{omop_database_schema}}.COHORT_DEFINITION (
 			cohort_definition_id integer NOT NULL,
 			cohort_definition_name varchar(255) NOT NULL,
 			cohort_definition_description varchar(MAX) NULL,
