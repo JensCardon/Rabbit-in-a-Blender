@@ -11,7 +11,7 @@ from configparser import ConfigParser
 from importlib import metadata
 from os import environ as env
 from os import getcwd, linesep, path
-from tempfile import NamedTemporaryFile, _TemporaryFileWrapper
+from tempfile import NamedTemporaryFile  # , _TemporaryFileWrapper
 from typing import Optional, Sequence, cast
 
 from dotenv import load_dotenv
@@ -626,7 +626,7 @@ ______      _     _     _ _     _                ______ _                _
 
         return parser
 
-    def init_logging(self) -> _TemporaryFileWrapper:
+    def init_logging(self):  # -> _TemporaryFileWrapper:
         """Initialise logging"""
         # get main logger
         main_logger = logging.getLogger()
